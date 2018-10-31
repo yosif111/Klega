@@ -9,7 +9,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import "RNSplashScreen.h" // React native splash screen 
+#import "RNSplashScreen.h"  // here Splash Screen
 
 @implementation AppDelegate
 
@@ -31,7 +31,7 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
-  [RNSplashScreen show]; // React native splash screen
+  [RNSplashScreen show];  // here
   return YES;
 }
 

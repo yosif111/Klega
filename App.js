@@ -9,9 +9,15 @@ import {
   Text,
   View
 } from 'react-native';
+import SplashScreen from 'react-native-splash-screen' 
 
 
 export default class App extends Component<Props> {
+
+  componentDidMount(){
+    SplashScreen.hide()
+
+  }
   render() {
     return (
       <MainStack />

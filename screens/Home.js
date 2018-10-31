@@ -11,7 +11,6 @@ import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import baseURL from '../config';
 import SoundPlayer from 'react-native-sound-player'
-import SplashScreen from 'react-native-splash-screen' 
 
 
 
@@ -31,7 +30,6 @@ export default class Home extends Component {
     SoundPlayer.onFinishedPlaying((success ) => { // success is true when the sound is played
       console.log('finished playing', success)
     })
-    SplashScreen.hide()
   }
 
   componentWillUnmount() {
