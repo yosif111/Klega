@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Image,
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import axios from 'axios';
@@ -20,13 +21,14 @@ export default class Home extends Component {
     super(props);
 
     this.state = {
-      showLoadingAlert: false,
+      showLoadingAlert: true,
       showIsKlegaAlert: false,
       showNotKlegaAlert: false,
     };
   }
 
   componentDidMount() {
+    
     SoundPlayer.onFinishedPlaying((success ) => { // success is true when the sound is played
       console.log('finished playing', success)
     })
@@ -85,16 +87,13 @@ export default class Home extends Component {
 
   renderLoadingAlert = () => {
     return (
-      <AwesomeAlert
-        show={this.state.showLoadingAlert}
-        showProgress={true}
-        title="لحظات .."
-        message="قاعدين نحلل الصورة"
-        closeOnTouchOutside={false}
-        closeOnHardwareBackPress={false}
-        showCancelButton={false}
-        showConfirmButton={false}
-      />)
+        <View style={styles.loadingBackground}>
+          <View style={styles.cardStyle}>
+            <Image style={styles.cardEmojiStyle} source={require('../assets/thinking.png')}/>
+            <Image style={styles.gifStyle} source={require('../assets/eating_klega_loop.gif')}/>
+          </View>
+        </View>
+      )
   }
 
   renderIsKlegaAlert = () => {
@@ -199,5 +198,35 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  loadingBackground: {
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    backgroundColor: 'rgba(52,52,52,0.5)',
+  },
+  cardStyle: {
+    flex: 1,
+    height: 170,
+    width: 170,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    position: 'absolute',
+  },
+  gifStyle: {
+    width: 120,
+    height: 120,
+    alignSelf: 'center',
+    position: 'absolute',
+  },
+  cardEmojiStyle: {
+    marginTop: -190,
+    width: 50,
+    height: 50,
   }
 });
