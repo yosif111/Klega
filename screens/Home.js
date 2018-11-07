@@ -12,6 +12,7 @@ import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import baseURL from '../config';
 import SoundPlayer from 'react-native-sound-player'
+import { Button } from 'react-native-elements';
 
 
 
@@ -21,15 +22,16 @@ export default class Home extends Component {
     super(props);
 
     this.state = {
-      showLoadingAlert: true,
+      showLoadingAlert: false,
       showIsKlegaAlert: false,
       showNotKlegaAlert: false,
+      showInfoAlert: false,
     };
   }
 
   componentDidMount() {
-    
-    SoundPlayer.onFinishedPlaying((success ) => { // success is true when the sound is played
+
+    SoundPlayer.onFinishedPlaying((success) => { // success is true when the sound is played
       console.log('finished playing', success)
     })
   }
@@ -51,7 +53,7 @@ export default class Home extends Component {
         console.log("string size", (image.base64).length);
         console.log(response.data[0]);
 
-        if (response.data[0] == 1){
+        if (response.data[0] == 1) {
           // try {
           //   SoundPlayer.playSoundFile('../snapchatDing', 'mp3')
           // } catch (e) {
@@ -86,11 +88,12 @@ export default class Home extends Component {
 
 
   renderLoadingAlert = () => {
-    return (
+    if (this.state.showLoadingAlert)
+      return (
         <View style={styles.loadingBackground}>
           <View style={styles.cardStyle}>
-            <Image style={styles.cardEmojiStyle} source={require('../assets/thinking.png')}/>
-            <Image style={styles.gifStyle} source={require('../assets/eating_klega_loop.gif')}/>
+            <Image style={styles.cardEmojiStyle} source={require('../assets/thinking.png')} />
+            <Image style={styles.gifStyle} source={require('../assets/eating_klega_loop.gif')} />
           </View>
         </View>
       )
@@ -125,6 +128,12 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.infoView}>
+          <TouchableOpacity onPress={() => this.setState({showInfoAlert: true})}>
+            <Image style={styles.infoImage} source={require('./../assets/info.png')} />
+            
+          </TouchableOpacity>
+        </View>
         <RNCamera
           ref={ref => {
             this.camera = ref;
@@ -136,6 +145,7 @@ export default class Home extends Component {
           permissionDialogTitle={'Permission to use camera'}
           permissionDialogMessage={'We need your permission to use your camera phone'}
         />
+
         <View style={styles.capture}>
           <TouchableOpacity
             onPress={() => this.takePicture()}
@@ -148,6 +158,7 @@ export default class Home extends Component {
 
         {this.renderLoadingAlert()}
         {this.renderIsKlegaAlert()}
+        {this.showInfo()}
 
 
       </View>
@@ -172,6 +183,22 @@ export default class Home extends Component {
       this.sendRequest(data);
     }
   };
+
+  showInfo = () => {
+    return (
+      <AwesomeAlert
+        show={this.state.showInfoAlert}
+        title="لماذا؟"
+        message={"تم تطوير هذا التطبيق بعد النظر للغش والإحتيال الذي يحدث باسم الكليجا.\n\nفتم تطوير هذا التطبيق للحفاظ على الكنز القصمنجي.\n\nتم التطوير من قبل باسل العبدي ويوسف الخليفة (القصمان)"}
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={true}
+        showCancelButton={false}
+        showConfirmButton={false}
+        contentContainerStyle={{ borderRadius: 20 }}
+        titleStyle={{ fontSize: 30 }}
+        messageStyle={{ fontSize: 16, textAlign: 'right' }}
+      />)
+  }
 
 }
 
@@ -228,5 +255,15 @@ const styles = StyleSheet.create({
     marginTop: -190,
     width: 50,
     height: 50,
+  },
+  infoView: {
+    position: 'absolute',
+    right: '7%',
+    top: '5%',
+    zIndex: 2
+  },
+  infoImage: {
+    height: 40,
+    width: 40,
   }
 });
