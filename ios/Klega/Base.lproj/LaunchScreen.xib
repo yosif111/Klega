@@ -27,6 +27,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Image" width="512" height="512"/>
+        <image name="Image" width="458" height="399"/>
     </resources>
 </document>
