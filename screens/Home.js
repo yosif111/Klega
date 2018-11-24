@@ -6,14 +6,14 @@ import {
   TouchableOpacity,
   View,
   Image,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import baseURL from '../config';
 import SoundPlayer from 'react-native-sound-player'
-import { Button } from 'react-native-elements';
-
 
 
 export default class Home extends Component {
@@ -102,8 +102,7 @@ export default class Home extends Component {
   renderIsKlegaAlert = () => {
     return (
       <AwesomeAlert
-        show={this.state.showIsKlegaAlert}
-        title="😍"
+          title="😍"
         message="وش هالكليجا الزينة😉 "
         closeOnTouchOutside={true}
         closeOnHardwareBackPress={true}
@@ -128,6 +127,7 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <StatusBar backgroundColor="#5E8D48" barStyle="light-content" />
         <View style={styles.infoView}>
           <TouchableOpacity onPress={() => this.setState({showInfoAlert: true})}>
             <Image style={styles.infoImage} source={require('./../assets/info.png')} />
@@ -151,7 +151,7 @@ export default class Home extends Component {
             onPress={() => this.takePicture()}
           //style = {styles.capture}
           >
-            <Text style={{ fontSize: 22 }}> صّور </Text>
+            <Text style={{ fontSize: 22, textAlign: 'center', textAlignVertical: 'center', paddingLeft: 7}}> صّور </Text>
           </TouchableOpacity>
         </View>
 
@@ -190,23 +190,34 @@ export default class Home extends Component {
         show={this.state.showInfoAlert}
         title="لماذا؟"
         message={"تم تطوير هذا التطبيق بعد النظر للغش والإحتيال الذي يحدث باسم الكليجا.\n\nفتم تطوير هذا التطبيق للحفاظ على الكنز القصمنجي.\n\nتم التطوير من قبل باسل العبدي ويوسف الخليفة (القصمان)"}
-        closeOnTouchOutside={true}
-        closeOnHardwareBackPress={true}
-        showCancelButton={false}
+        closeOnTouchOutside={false}
+        closeOnHardwareBackPress={false}
+        showCancelButton={true}
+        cancelText={'كفو'}
+        onCancelPressed={() => {
+          this.setState({showInfoAlert: false})
+        }}
+        cancelButtonTextStyle={{fontSize: 22}}
+        cancelButtonColor='red'
         showConfirmButton={false}
         contentContainerStyle={{ borderRadius: 20 }}
         titleStyle={{ fontSize: 30 }}
         messageStyle={{ fontSize: 16, textAlign: 'right' }}
-      />)
+      />) 
   }
 
 }
+
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white'
+  },statusBar: {
+    height: STATUSBAR_HEIGHT,
   },
   preview: {
     flex: 1,
@@ -215,16 +226,19 @@ const styles = StyleSheet.create({
   },
   capture: {
     backgroundColor: 'white',
-    borderRadius: 5,
+    borderRadius: 75,
     alignSelf: 'center',
     position: 'absolute',
-    top: '90%',
+    top: '85%',
     right: '40%',
     bottom: '5%',
     left: '40%',
     opacity: 0.5,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    flex: 1,
+    width: 70,
+    height: 70,
   },
   loadingBackground: {
     width: '100%',
